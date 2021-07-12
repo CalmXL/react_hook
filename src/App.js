@@ -1,13 +1,15 @@
 import React,{} from 'react'
-import Counter from './features/counter/counter'
+import { Route,Switch} from 'react-router-dom'
+import Admin from './components/admin/admin'
+import Login from './components/login/login'
 
 export default function App() {
   return(
     <div className='app'>
-      <header>
-        计数器
-      </header>
-      <Counter />
+      <Switch>
+        <Route path='/admin' component={Admin}/>
+        <Route path='/login' component={Login}/>
+      </Switch>
     </div>
   )
 }
