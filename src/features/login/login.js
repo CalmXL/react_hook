@@ -2,35 +2,35 @@ import React,{} from 'react'
 import { Form, Input, Button, message } from 'antd';
 import { QqOutlined, KeyOutlined } from '@ant-design/icons';
 import { useHistory} from 'react-router-dom'
+import {saveUserInfo} from './loginSlice'
+import {useDispatch} from 'react-redux'
 import {reqLogin} from '../../api'
-
 import logo from './imgs/logo.png'
 import './css/login.css'
 
 
 export default function Login() {
 
+  const dispatch = useDispatch()
+
   let history = useHistory() 
 
   // ? 提交表单且数据验证成功后回调事件
-  const onFinish = (values)=>{
+  const onFinish = async(values)=>{
     const {username,password} = values
     // 请求登录
-    reqLogin(username,password)
-    .then((result)=>{
-      const{status,msg,data} = result
-      if(status === 0){
-        message.success('请求登录成功')
-        console.log(data)
-        // 跳转admin页面
-        history.replace('/admin')
-      }else{
-        message.error(msg,1)
-      }
-    })
-    .catch((reason)=>{
-      console.log(reason)
-    })
+    let result = await reqLogin(username,password)
+    const {status,data,msg} = result
+    if(status === 0){
+      message.success('请求登录成功')
+      // 1.将信息存入store中
+      dispatch(saveUserInfo(data))
+      
+      // 2.跳转admin页面
+      history.replace('/admin/home')
+    }else{
+      message.error(msg,1)
+    }
   }
 
   // ? 用于密码的效验
@@ -45,7 +45,6 @@ export default function Login() {
       }else if(!(/^\w+$/).test(value)){
         return Promise.reject(new Error('密码必须是数字、字母、下划线'))
       }
-
       return Promise.resolve()
     }
   })

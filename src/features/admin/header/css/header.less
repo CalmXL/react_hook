@@ -1,0 +1,44 @@
+.header-top{
+  color: black;
+  height: 40px;  
+  text-align: right;
+  border-bottom: solid 1px #1DA57A;
+  span{
+    margin:0 0 0 10px ;
+  }
+  Button{
+    text-align: center;
+  }
+  line-height: 40px;
+}
+.header-bottom{
+  color: black;
+  height: 40px;
+  display: flex;
+  .header-bottom-left{
+    position: relative;
+    width: 25%;
+    font-size: 20px;
+    text-align: center;
+    line-height: 40px;
+    &::after{
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      position: absolute;
+      border-top: 20px solid white;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 20px solid transparent;
+      content: '';
+    }
+  }
+  .header-bottom-right{
+    width: 75%;
+    text-align: right;
+    line-height: 40px;
+    span{
+      margin: 0 10px;
+    }
+  }
+}

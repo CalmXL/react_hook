@@ -1,0 +1,20 @@
+.left-nav {
+  height: 80px;
+}
+.left-nav .left-nav-header {
+  color: white;
+  display: flex;
+  align-items: center;
+  background-color: #15A79a;
+}
+.left-nav .left-nav-header img {
+  width: 40px;
+  height: 40px;
+  margin: 0 10px;
+}
+.left-nav .left-nav-header h1 {
+  color: white;
+  font-size: 20px;
+  line-height: 80px;
+  margin-bottom: 0px;
+}
