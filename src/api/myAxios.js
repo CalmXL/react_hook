@@ -41,7 +41,6 @@ instance.interceptors.response.use(response => {
   return response.data;
 },error => {
   NProgress.done()
-  debugger
   if(error.response.status === 401){
     message.error('您的登录身份已过期,请您重新登录',1)
     // ? 跳转回 login 页面

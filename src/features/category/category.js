@@ -1,28 +1,43 @@
 import React,{createRef} from 'react'
 import { useEffect,useState} from 'react'
 import { Button, Table,Card,Modal,Input, message } from 'antd'
-import { reqCategory } from '../../api'
+import { reqCategory, reqAddCategory, reqUpdateCategory } from '../../api'
 import {PAGE_SIZE} from '../../config'
-import {reqAddCategory} from '../../api'
-import { reqUpdateCategory } from '../../api'
+import { useDispatch } from 'react-redux'
+import { saveCategoryList } from './categorySlice'
 
 export default function Category() {
 
+  const dispatch = useDispatch()
   const AddRef = createRef()
   const UpdateRef = createRef()
   const [categoryList,setCategoryList] = useState([])
   const [isAddModalVisible,setIsAddModalVisible] = useState(false)
   const [isUpdateModalVisible,setIsUpdateModalVisible] = useState(false)
   const [categoryId,setCategoryId] = useState('')
+  const [isLoading,setIsLoading] = useState(true)
 
   useEffect(()=>{
     console.log('请求列表')
     getCategoryList()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
   // 获取分类数据
   const getCategoryList = async()=>{
     let result = await reqCategory()
-    setCategoryList(result.data)
+    const {status,data,msg} = result
+    if(status === 0){
+      message.success('获取分类成功')
+      // 更新列表
+      setCategoryList(data)
+      // 更改加载状态
+      setIsLoading(false)
+      // 保存到redux-store
+      dispatch(saveCategoryList(data))
+    }else{
+      message.error(msg,1)
+    }
+    
   }
   // ? 表格数据
   const dataSource = categoryList;
@@ -111,8 +126,6 @@ export default function Category() {
      UpdateRef.current.state.value = ''
   }
 
-  
-
   return(
     <>
       <Card 
@@ -131,6 +144,8 @@ export default function Category() {
           columns={columns} 
           rowKey='_id'
           pagination={{pageSize:PAGE_SIZE,showQuickJumper:true}}
+          bordered
+          loading={isLoading}
         />;
       </Card>
       <Modal 

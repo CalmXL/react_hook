@@ -4,7 +4,7 @@ import girl from '../../static/imgs/girl.jpg'
 export default function Home() {
   return(
     <>
-      <img src={girl} style={{width:'100%'}} alt=''/>
+      <img src={girl} style={{width:'100%',height:'100%'}} alt=''/>
     </>
   )
 }
